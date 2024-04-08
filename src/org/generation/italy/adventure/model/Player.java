@@ -1,24 +1,18 @@
 package org.generation.italy.adventure.model;
 
-import java.util.ArrayList;
 
 public class Player {
     private String name;
-    private ArrayList<Item> invetory;
-    private Room attualRoom;
+    private Room actualRoom;
+    private Inventory inventory;
 
-    public Player(String name, ArrayList<Item> invetory, Room attualRoom) {
+    public Player(String name, Room actualRoom, Inventory inventory) {
         this.name = name;
-        this.invetory = invetory;
-        this.attualRoom = attualRoom;
+        this.actualRoom = actualRoom;
+        this.inventory = inventory;
     }  
 
-    public void printInventory(){
-        System.out.println("Inventario:");
-        for (Item item : invetory) {
-            System.out.printf("-%s%n", item);
-        }
-    }
+    
 
 
 }

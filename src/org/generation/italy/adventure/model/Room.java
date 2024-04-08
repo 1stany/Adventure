@@ -1,19 +1,30 @@
 package org.generation.italy.adventure.model;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Room {
-    private final int MAXEXIT = 4;
-    private ArrayList<Item> itemList ;
-    private Room roomM [][];
     private String name;
     private String description;
+    private Inventory inventory ;
+    private HashMap <Cardinal, Room> exits = new HashMap<>();
     
-    public Room(ArrayList<Item> itemList, Room[][] roomM, String name, String description) {
-        this.itemList = new ArrayList<>(itemList);
-        this.roomM = roomM;
+    public Room(String name, String description, Inventory inventory) {
         this.name = name;
         this.description = description;
+        this.inventory = inventory;
+    }
+
+    public boolean connect(Room other, Cardinal direction){
+        if(hasBusyExit(direction) || other.hasBusyExit(direction.opposite())){
+            return false;
+        }else{
+            exits.put(direction, other);
+            other.exits.put(direction.opposite(), this);
+            return true;
+        }
     }
     
+    public boolean hasBusyExit(Cardinal direction){
+        return exits.containsKey(direction);
+    }
 }
