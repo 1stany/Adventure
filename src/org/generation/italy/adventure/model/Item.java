@@ -4,9 +4,17 @@ import java.util.Optional;
 
 public class Item {
     private String name;
+    private int id;
+    private String description;
+    private double weight;
+    private int value;
 
-    public Item(String name) {
+    public Item(int id, String name, String description, double weight, int value) {
+        this.id = id;
         this.name = name;
+        this.description = description;
+        this.weight = weight;
+        this.value = value;
     }
    
     @Override
@@ -26,18 +34,19 @@ public class Item {
         // }else{
         //     return false;
         // }
-        return this.name.equals(otherItem.name);
+        return this.id == otherItem.id;
     }
 
     @Override
     public int hashCode(){
-        return name.hashCode();
+        return id;
     }
 
-    public Optional<String> getName(){
-        if(name == null){
-            return Optional.empty();
-        }
-        return Optional.of(name);
+    public String getName(){
+        return name;
+    }
+
+    public double getWeight(){
+        return weight;
     }
 }

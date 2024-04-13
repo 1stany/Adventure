@@ -1,30 +1,57 @@
 package org.generation.italy.adventure.model;
 
 import java.util.HashMap;
+import java.util.Optional;
 
 public class Room {
+    private int id;
     private String name;
     private String description;
     private Inventory inventory ;
-    private HashMap <Cardinal, Room> exits = new HashMap<>();
+    private RoomConnection connection;
     
-    public Room(String name, String description, Inventory inventory) {
+    public Room(int id, String name, String description, Item... objects) {
+        this.id = id;
         this.name = name;
         this.description = description;
-        this.inventory = inventory;
+        this.inventory = new Inventory(objects);
+        this.connection = new RoomConnection();
     }
 
     public boolean connect(Room other, Cardinal direction){
-        if(hasBusyExit(direction) || other.hasBusyExit(direction.opposite())){
+        if(isBusyAt(direction) || other.isBusyAt(direction.opposite())){
             return false;
         }else{
-            exits.put(direction, other);
-            other.exits.put(direction.opposite(), this);
+            connection.connectAt(direction, other);
+            other.connection.connectAt(direction.opposite(), this);
             return true;
         }
     }
     
-    public boolean hasBusyExit(Cardinal direction){
-        return exits.containsKey(direction);
+    public Optional<Room> exitAt(Cardinal direction){
+        return connection.getRoomAt(direction);
+    }
+
+    public boolean isBusyAt(Cardinal direction){
+        return connection.getRoomAt(direction).isPresent();
+    }
+
+    @Override
+    public String toString (){
+        return """
+                                %s 
+               %s         
+                """.stripTrailing().formatted(name, description);
+    }
+
+    public String getRoomContent(){
+        StringBuilder s = new StringBuilder("In questa stanza vedi: ");
+        s.append("\n");
+        s.append(inventory.getItemNameList());
+        return s.toString();
+    }
+
+    public int getId() {
+        return id;
     }
 }

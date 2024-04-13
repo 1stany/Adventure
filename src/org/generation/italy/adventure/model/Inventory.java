@@ -1,28 +1,21 @@
 package org.generation.italy.adventure.model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class Inventory {
-    private ArrayList<Item> itemList;
+    private List<Item> itemList;
 
-    public static void main(String[] args) {
-        Inventory x = new Inventory();
-        Item i1 = new Item("spada");
-        Item i2 = new Item("spada");
-        x.pick(i2);
-        System.out.println(x.itemList.size());
-        x.drop(i1);
-        System.out.println(x.itemList.size());
-        // boolean result = i1.equals(i2);
-        // boolean result2 = i1.equals(i1);
-        // boolean result3 = i1.equals("ciao");
+    public Inventory(Item... items){
+        itemList = new ArrayList<>(Arrays.asList(items));
     }
     
     public Inventory() {
         this.itemList = new ArrayList<>();
     }
 
-    public ArrayList<Item> getInventory(){
+    public List<Item> getInventory(){
         return itemList;
     }
 
@@ -32,5 +25,13 @@ public class Inventory {
 
     public void drop(Item i){
         itemList.remove(i);
+    }
+
+    public String getItemNameList(){
+        StringBuilder sb = new StringBuilder();
+        for (Item item : itemList) {
+            sb.append(item.getName()).append("\n");
+        }
+        return sb.toString();
     }
 }
