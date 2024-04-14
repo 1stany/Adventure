@@ -1,7 +1,8 @@
 package org.generation.italy.adventure.model;
 
-import java.util.HashMap;
+import java.util.Arrays;
 import java.util.Optional;
+import java.util.StringJoiner;
 
 public class Room {
     private int id;
@@ -28,8 +29,20 @@ public class Room {
         }
     }
     
+    public Optional<Item> remove(String objectName) {
+        return inventory.remove(objectName);
+    }
+
+    public void addObject(Item item) {
+        inventory.add(item);
+    }
+
     public Optional<Room> exitAt(Cardinal direction){
         return connection.getRoomAt(direction);
+    }
+
+    public boolean hasExitAt(Cardinal direction) {
+       return exitAt(direction).isPresent();
     }
 
     public boolean isBusyAt(Cardinal direction){
@@ -39,9 +52,19 @@ public class Room {
     @Override
     public String toString (){
         return """
-                                %s 
+                                    %s 
+               %s
                %s         
-                """.stripTrailing().formatted(name, description);
+                """.stripTrailing().formatted(name, description, getExitDescription());
+    }
+
+    private String getExitDescription() {
+        StringJoiner sj = new StringJoiner(", ", "[" , "]");
+        Arrays.stream(Cardinal.values())
+                     .filter(this::hasExitAt)
+                     .map(Cardinal::toLetter)
+                     .forEach(s -> sj.add(s));
+        return sj.toString();
     }
 
     public String getRoomContent(){

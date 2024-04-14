@@ -17,7 +17,7 @@ public class MoveCommand implements Command{
         Optional<Room> exit = c.exitAt(direction);
         if(exit.isPresent()){
             player.setCurrentRoom(exit.get());
-            return "ti sei mosso a " + direction;
+            return "ti sei mosso a " + direction.toItalian();
         }
         return "non puoi andare in quella direzione";
     }

@@ -8,8 +8,14 @@ public class CommandInterpreter {
     }
 
     public Command commandFor(String input){
-        return switch (input){
-            case "n", "s", "o", "e" -> new MoveCommand(p, Cardinal.directionFor(input));
+        String[] parts = input.split("\\s+", 2);
+        String main = parts[0];
+        return switch (main){
+            case "n", "s", "o", "e" -> new MoveCommand(p, Cardinal.directionFor(main));
+            case "l" -> new LookCommand(p);
+            case "i" -> new InventoryCommand(p);
+            case "p"-> new PickCommand(p, parts[1]);
+            case "d"-> new DropCommand(p, parts[1]);
             default -> new NoCommand(input);
         };
     }

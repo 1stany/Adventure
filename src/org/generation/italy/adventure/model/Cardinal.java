@@ -3,7 +3,7 @@ package org.generation.italy.adventure.model;
 import java.security.InvalidParameterException;
 
 public enum Cardinal {
-    EAST, NORTH,  SOUTH, WEST;
+    NORTH,  SOUTH, EAST, WEST;
 
     public Cardinal opposite(){
         return switch (this) {
@@ -22,5 +22,18 @@ public enum Cardinal {
             case "n" -> NORTH;
             default -> throw new InvalidParameterException(command);
         };
+    }
+
+    public String toItalian() {
+        return switch (this) {
+            case EAST -> "est";
+            case WEST -> "ovest";
+            case NORTH -> "nord";
+            case SOUTH -> "sud";
+        };
+    }
+
+    public String toLetter(){
+        return this.toString().substring(0, 1).toLowerCase();
     }
 }
